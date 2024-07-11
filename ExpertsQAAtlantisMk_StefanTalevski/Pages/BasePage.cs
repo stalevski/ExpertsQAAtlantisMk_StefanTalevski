@@ -38,7 +38,6 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
             }
         }
 
-
         public void EnterText(By element, string text)
         {
             Log.Info($"Entering text '{text}' into element {element}");
@@ -76,7 +75,6 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
             }
         }
 
-
         public void SelectFromDropdown(By element, string value)
         {
             var dropdown = Wait.Until(ExpectedConditions.ElementToBeClickable(element));
@@ -88,10 +86,6 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
                                  .FirstOrDefault(o => o.Text.Trim() == value);
             option.Click();
         }
-
-
-
-
 
         public void WaitForElementToBeVisible(By element, int timeoutInSeconds = 10)
         {

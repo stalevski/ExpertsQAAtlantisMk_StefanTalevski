@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using SeleniumExtras.WaitHelpers;
 
 namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 {
@@ -62,18 +61,6 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
             WaitForElementToBeClickable(SearchButton);
             ClickElement(SearchButton);
             return new ResultsPage(Driver);
-        }
-
-        public void ClickPassengersOkButton(By locator)
-        {
-            Log.Info($"Clicking on element {locator}");
-            var element = Wait.Until(ExpectedConditions.ElementToBeClickable(locator));
-
-            ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
-
-            System.Threading.Thread.Sleep(500);
-
-            ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].click();", element);
         }
 
         public bool VerifyErrorMessageDestinationAndDateIsShown()

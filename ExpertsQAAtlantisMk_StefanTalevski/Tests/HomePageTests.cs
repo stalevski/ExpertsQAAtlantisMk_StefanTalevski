@@ -17,11 +17,10 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Tests
 
             ResultsPage = HomePage.ClickSearchButton();
 
-            string resultsUrl = ResultsPage.GetCurrentUrl();
+            var resultsUrl = ResultsPage.GetCurrentUrl();
             TestContext.WriteLine($"Results Page URL: {resultsUrl}");
 
             ResultsPage.TakeScreenshot("ResultsPage");
-
             ResultsPage.VerifyBalkanHolidaysAirIsShown();
         }
 
@@ -31,6 +30,7 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Tests
             HomePage.AcceptCookies(); 
             HomePage.ClickSearchButton();
             HomePage.VerifyErrorMessageDestinationAndDateIsShown();
+
             ResultsPage.TakeScreenshot("ErrorMessage");
         }
     }
