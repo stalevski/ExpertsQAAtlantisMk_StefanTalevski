@@ -105,39 +105,66 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 
         public void WaitForElementToBeVisible(By element, int timeoutInSeconds = 10)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(ExpectedConditions.ElementIsVisible(element));
+            Logger.Information($"Waiting for element to be visible: {element}");
+            try
+            {
+                var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+                wait.Until(ExpectedConditions.ElementIsVisible(element));
+                Logger.Information($"Element {element} is now visible.");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Logger.Warning($"Element {element} was not visible within {timeoutInSeconds} seconds.");
+                throw; // Rethrow the exception to propagate it further if needed
+            }
         }
 
         public void WaitForElementToBeClickable(By element, int timeoutInSeconds = 10)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
-            wait.Until(ExpectedConditions.ElementToBeClickable(element));
+            Logger.Information($"Waiting for element to be clickable: {element}");
+            try
+            {
+                var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+                wait.Until(ExpectedConditions.ElementToBeClickable(element));
+                Logger.Information($"Element {element} is now clickable.");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Logger.Warning($"Element {element} was not clickable within {timeoutInSeconds} seconds.");
+                throw; // Rethrow the exception to propagate it further if needed
+            }
         }
 
         public bool IsElementVisible(By element, int timeoutInSeconds = 10)
         {
+            Logger.Information($"Checking if element is visible: {element}");
             try
             {
                 var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
-                return wait.Until(ExpectedConditions.ElementIsVisible(element)).Displayed;
+                bool isVisible = wait.Until(ExpectedConditions.ElementIsVisible(element)).Displayed;
+                Logger.Information($"Element {element} visibility check result: {isVisible}");
+                return isVisible;
             }
             catch (WebDriverTimeoutException)
             {
+                Logger.Warning($"Element {element} was not visible within {timeoutInSeconds} seconds.");
                 return false;
             }
         }
 
         public bool IsElementClickable(By element, int timeoutInSeconds = 10)
         {
+            Logger.Information($"Checking if element is clickable: {element}");
             try
             {
                 var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
                 wait.Until(ExpectedConditions.ElementToBeClickable(element));
+                Logger.Information($"Element {element} is clickable.");
                 return true;
             }
             catch (WebDriverTimeoutException)
             {
+                Logger.Warning($"Element {element} was not clickable within {timeoutInSeconds} seconds.");
                 return false;
             }
         }

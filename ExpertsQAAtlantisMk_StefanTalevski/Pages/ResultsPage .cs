@@ -1,21 +1,21 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework.Legacy;
+using OpenQA.Selenium;
 
 namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 {
     public class ResultsPage : BasePage
     {
-        private readonly By BalkanHolidaysAir = By.XPath("/html/body/div[8]/div/div[2]/div[1]/div[3]/table/tbody/tr[2]/td[2]");
+        private readonly By BalkanHolidaysAir = By.XPath("//td[text()='Balkan Holidays Air']");
 
         public ResultsPage(IWebDriver driver) : base(driver)
         {
         }
 
-        public bool VerifyBalkanHolidaysAirIsShown()
+        public void VerifyBalkanHolidaysAirIsShown()
         {
             WaitForElementToBeVisible(BalkanHolidaysAir);
-            if (IsElementVisible(BalkanHolidaysAir))
-            { return true; }
-            return false;
+            ClassicAssert.IsTrue(IsElementVisible(BalkanHolidaysAir), "Search result not shown");
+            
         }
     }
 }
