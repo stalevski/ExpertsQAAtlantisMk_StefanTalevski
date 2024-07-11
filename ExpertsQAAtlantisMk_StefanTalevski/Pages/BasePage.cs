@@ -115,7 +115,6 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
             catch (WebDriverTimeoutException)
             {
                 Logger.Warning($"Element {element} was not visible within {timeoutInSeconds} seconds.");
-                throw; // Rethrow the exception to propagate it further if needed
             }
         }
 
@@ -131,7 +130,6 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
             catch (WebDriverTimeoutException)
             {
                 Logger.Warning($"Element {element} was not clickable within {timeoutInSeconds} seconds.");
-                throw; // Rethrow the exception to propagate it further if needed
             }
         }
 
