@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using Serilog;
 
 namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 {
@@ -9,7 +10,21 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
     {
         protected IWebDriver Driver;
         protected WebDriverWait Wait;
-        protected static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly ILogger Logger;
+
+        static BasePage()
+        {
+            try
+            {
+                LoggingConfig.Configure();
+                Logger = Log.ForContext<BasePage>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error initializing logger in BasePage: {ex.Message}");
+                throw;
+            }
+        }
 
         public BasePage(IWebDriver driver)
         {
@@ -19,13 +34,13 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 
         public void NavigateTo(string url)
         {
-            Log.Info($"Navigating to {url}");
+            Logger.Information($"Navigating to {url}");
             Driver.Navigate().GoToUrl(url);
         }
 
         public void ClickElement(By locator)
         {
-            Log.Info($"Clicking on element {locator}");
+            Logger.Information($"Clicking on element {locator}");
             var element = Wait.Until(ExpectedConditions.ElementToBeClickable(locator));
 
             try
@@ -40,14 +55,14 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 
         public void EnterText(By element, string text)
         {
-            Log.Info($"Entering text '{text}' into element {element}");
+            Logger.Information($"Entering text '{text}' into element {element}");
             Wait.Until(driver => driver.FindElement(element).Displayed);
             Driver.FindElement(element).SendKeys(text);
         }
 
         public void SetDate(By locator, string date)
         {
-            Log.Info($"Setting date '{date}' in element {locator}");
+            Logger.Information($"Setting date '{date}' in element {locator}");
             int attempts = 0;
             while (attempts < 3)
             {
@@ -70,13 +85,14 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
                 catch (StaleElementReferenceException)
                 {
                     attempts++;
-                    Log.Warn($"StaleElementReferenceException encountered. Retry attempt {attempts}");
+                    Logger.Warning($"StaleElementReferenceException encountered. Retry attempt {attempts}");
                 }
             }
         }
 
         public void SelectFromDropdown(By element, string value)
         {
+            Logger.Information($"Selecting '{value}' from dropdown {element}");
             var dropdown = Wait.Until(ExpectedConditions.ElementToBeClickable(element));
 
             Actions actions = new Actions(Driver);
@@ -140,11 +156,11 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
                 Directory.CreateDirectory(screenshotDirectory);
                 string filePath = Path.Combine(screenshotDirectory, $"{screenshotName}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
                 screenshot.SaveAsFile(filePath);
-                Log.Info($"Screenshot taken: {filePath}");
+                Logger.Information($"Screenshot taken: {filePath}");
             }
             catch (Exception ex)
             {
-                Log.Error($"An error occurred while taking a screenshot: {ex.Message}");
+                Logger.Error($"An error occurred while taking a screenshot: {ex.Message}");
             }
         }
     }

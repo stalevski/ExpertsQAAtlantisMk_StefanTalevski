@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework.Legacy;
+using OpenQA.Selenium;
 
 namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 {
@@ -7,13 +8,13 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
         private readonly By Departure = By.Id("packageDeparturev2");
         private readonly By Arrival = By.Id("packageArrivalv2");
         private readonly By VacationLength = By.Id("packageDayv2");
-        private readonly By NumberOfPeople = By.XPath("/html/body/div[4]/div[2]/div/div/div[1]/div[2]/table/tbody/tr/td[5]/div/div[1]");
+        private readonly By NumberOfPeople = By.CssSelector("div.passTrigger");
         private readonly By NumberOfPeopleNewBoxAdultCount = By.Id("multipackageAdultv2");
         private readonly By NumberOfPeopleNewBoxChildrenCount = By.Id("multipackageChildv2");
         private readonly By SearchButton = By.ClassName("searchButton");
         private readonly By DepartureDate = By.Id("packageDepartureDatev2");
-        private readonly By AcceptCookiesButton = By.XPath("/html/body/div[2]/div/div[3]/button[1]");
-        private readonly By ErrorMessageNoDEstinationAndDateText = By.Id("warningPopupText");
+        private readonly By AcceptCookiesButton = By.CssSelector("button.auto-button.fr.ml10");
+        private readonly By ErrorMessageNoDestinationAndDateText = By.Id("warningPopupText");
 
         public HomePage(IWebDriver driver) : base(driver)
         {
@@ -22,9 +23,19 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
 
         public void AcceptCookies()
         {
-            if (IsElementVisible(AcceptCookiesButton) && IsElementClickable(AcceptCookiesButton))
+            Logger.Information("Attempting to accept cookies.");
+            try
             {
-                ClickElement(AcceptCookiesButton);
+                if (IsElementVisible(AcceptCookiesButton) && IsElementClickable(AcceptCookiesButton))
+                {
+                    ClickElement(AcceptCookiesButton);
+                    Logger.Information("'Accept Cookies' button clicked successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"An error occurred while attempting to accept cookies: {ex.Message}");
+                throw;
             }
         }
 
@@ -63,11 +74,9 @@ namespace ExpertsQAAtlantisMk_StefanTalevski.Pages
             return new ResultsPage(Driver);
         }
 
-        public bool VerifyErrorMessageDestinationAndDateIsShown()
+        public void VerifyErrorMessageDestinationAndDateIsShown()
         {
-            if (IsElementVisible(ErrorMessageNoDEstinationAndDateText))
-            { return true; }
-            return false;
+            ClassicAssert.IsTrue(IsElementVisible(ErrorMessageNoDestinationAndDateText), "Expected error message not shown");
         }
     }
 }
