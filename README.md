@@ -45,7 +45,7 @@ Open the solution and build for tests to show in test explorer.
 ### Installation
 Clone the repository:
 
-Test Cases
+## Test Cases
 Test_SearchFunctionality: Verify the functionality of searching for vacation details on the home page and navigating to the results page.
 Test_ErrorMessageIsShownIfNoDestinationAndDateIsSelected: Validate that an error message is displayed when attempting to search without selecting a destination and date.
 
