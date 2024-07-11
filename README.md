@@ -49,13 +49,13 @@ Clone the repository:
 Test_SearchFunctionality: Verify the functionality of searching for vacation details on the home page and navigating to the results page.
 Test_ErrorMessageIsShownIfNoDestinationAndDateIsSelected: Validate that an error message is displayed when attempting to search without selecting a destination and date.
 
-Packages Used
-dotnetseleniumextras.waithelpers
-nunit
-nunit.engine
-selenium.support
-selenium.webdriver
-selenium.webdriver.chromedriver
-serilog
-serilog.sinks.console
-serilog.sinks.file
+## Packages Used
+- dotnetseleniumextras.waithelpers
+- nunit
+- nunit.engine
+- selenium.support
+- selenium.webdriver
+- selenium.webdriver.chromedriver
+- serilog
+- serilog.sinks.console
+- serilog.sinks.file
